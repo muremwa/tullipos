@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock title %} | Tulliops</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://127.0.0.1/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/base.css' %}" />
+    {% block style %}{% endblock style %}
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Tulliops</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+              
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item {% block shop %}{% endblock %}">
+                        <a class="nav-link" href="{% url 'shop:index' %}">Shop</a>
+                    </li>
+                    <li class="nav-item {% block faq %}{% endblock %}">
+                        <a class="nav-link" href="{% url 'FAQ' %}">FAQ</a>
+                    </li>
+                    <li class="nav-item {% block order %}{% endblock %}">
+                        <a class="nav-link" href="{% url 'shop:order' %}">order now</a>
+                    </li>
+                </ul>
+              <form method="GET" action="{% url 'search'  %}" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="query" value="{{ request.GET.query }}" placeholder="Search for shoes, brands and tags" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+        </nav>
+    
+    <div id="content">
+        {% block content %}
+    
+        {% endblock content %}
+    </div>
+
+    <div class="container col-md-8">
+        {% comment %}This is the pagination block{% endcomment %}
+        {% block pagination %}
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% endif %}
+
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active">
+                                <a href="" class="page-link">{{ i }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        {% endblock pagination %}
+    </div>
+
+    <!-- footer -->
+    <footer class="section footer-classic context-dark bg-image" style="background: #343a40;">
+            <div class="container">
+              <div class="row row-30">
+                <div class="col-md-4 col-xl-5">
+                  <div class="pr-xl-4">
+                    <p>We are shoe selling online platform, dedicated to the best services.</p>
+                    <!-- Rights-->
+                    <p class="rights"><span>©  </span><span class="copyright-year">2018</span><span> </span><span>Tulliops</span><span>. </span><span>All Rights Reserved.</span></p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <h5>Contacts</h5>
+                  <dl class="contact-list">
+                    <dt>email:</dt>
+                    <dd><a href="mailto:#">danmburu254@gmail.com</a></dd>
+                  </dl>
+                  <dl class="contact-list">
+                    <dt>phones:</dt>
+                    <dd><a href="tel:#">0792-199-276</a> <span></a>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-md-4 col-xl-3">
+                  <h5>Tullipos</h5>
+                  <ul class="nav-list">
+                    <li><a href="#">About</a></li>
+                    <li><a href="{% url 'shop:index' %}">Shop</a></li>
+                    <li><a href="{% url 'FAQ' %}">FAQs</a></li>
+                    <li><a href="{% url 'shop:order' %}">Order</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="row no-gutters social-container">
+              <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-facebook"></span><span>Facebook</span></a></div>
+              <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-instagram"></span><span>instagram</span></a></div>
+              <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-twitter"></span><span>twitter</span></a></div>
+              <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-youtube-play"></span><span>google</span></a></div>
+            </div>
+          </footer>
+
+    
+    <script src="http://127.0.0.1/assets/js/jquery.js"></script>
+    <script src="http://127.0.0.1/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block script %}{% endblock script %}
+</body>
+</html>

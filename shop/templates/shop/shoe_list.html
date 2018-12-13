@@ -1,0 +1,45 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}All shoes{% endblock title %}
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'shop/css/shoe_list.css' %}">{% endblock style %}
+{% block shop %}active{% endblock %}
+
+{% block content %}
+<div class="container-fluid" id="shoe-list">
+    <div id="top-layer" class="row">
+        <h1 class="col-md-2">all shoes</h1>
+        <div class="col-md-4">
+            <span class="text-primary">Filter by brands</span>
+            <ul class="list-inline">
+                {% for brand in brands %}
+                    <li class="list-inline-item"><a class="btn btn-dark" href="{% url 'search' %}?query=brand:{{brand}}">{{ brand }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <span class="text-primary">Filter by gender</span>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a class="btn btn-dark" href="{% url 'search' %}?query=sex:male">male</a></li>
+                <li class="list-inline-item"><a class="btn btn-dark" href="{% url 'search' %}?query=sex:female">female</a></li>
+                <li class="list-inline-item"><a class="btn btn-dark" href="{% url 'search' %}?query=sex:unisex">unisex</a></li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <span class="text-primary">Filter by tag</span>
+            <ul class="list-inline">
+                {% for tag in tags %}
+                    <li class="list-inline-item"><a class="btn btn-dark" href="{% url 'search' %}?query=tag:{{tag}}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row" id="all-shoes">
+        {% include "shop/shoes.html" %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'shop/js/shoe.js' %}"></script>{% endblock script %}

@@ -1,0 +1,25 @@
+.brand {
+    background-color: #f5f6f6;
+}
+
+.brand-top {
+    padding: 1em;
+}
+
+.faqs-results {
+    background-color: #f5f6f6;
+    margin-top: 1em;
+}
+
+.main-heading {
+    color: darkcyan;
+    font-weight: bolder;
+    margin-left: 10%;
+    margin-top: 0.5em;
+}
+
+.section-heading {
+    font-weight: bold;
+    color: darkcyan;
+    margin-left: 40%;
+}

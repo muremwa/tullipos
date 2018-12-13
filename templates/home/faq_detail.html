@@ -1,0 +1,22 @@
+{% extends "home/base.html" %}
+
+{% block title %}{{ faq.question }}{% endblock title %}
+
+{% block faq %}active{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <h1>{{ faq.question }}</h1>
+            <div class="list-inline">
+                {% for tag in faq.tag.all %}
+                    <span class="text-success">{{ tag.name }} |</span>
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <p class="col-md-10 text-secondary">{{ faq.answer }}</p>
+        </div>
+    </div>
+{% endblock content %}

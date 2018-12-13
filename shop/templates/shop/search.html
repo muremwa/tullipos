@@ -1,0 +1,79 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}Search{% endblock title %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'shop/css/shoe_list.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'shop/css/search.css' %}"/>
+{% endblock style %}
+{% block shop %}active{% endblock shop %}
+
+
+{% block content %}
+<div class="container-fluid">
+    {% if results.message %}
+        <h1 class="main-heading">{{ results.message }}</h1>
+        <a href="" style="margin-left: 20%;" class="btn btn-link">learn more</a>
+    {% else %}
+        <h1 class="main-heading">Search results from '{{ query }}'</h1>
+    {% endif %}
+    <hr>
+
+    {% if results.shoes %}
+        {% comment %}shoes results{% endcomment %}
+        <h2 class="section-heading">results for shoes {% if results.feature %} of {{ results.feature }} '{{ results.term }}'{% endif %}</h2>
+
+        <div class="container col-md-10"><hr></div>
+        <div class="row">
+            {% for shoe in results.shoes %}
+                {% include "shop/absolute_shoe.html" %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if results.brands %}
+        {% comment %}brand results{% endcomment %}
+        <h2 class="section-heading">results for brands</h2>
+        <div class="container col-md-10"><hr></div>
+
+        <div class="row">
+            {% for brand in results.brands  %}
+                <div class="col-md-2 brand-top">
+                    <div class="card brand">
+                        <img class="card-img-top" alt="imge for {{ brand }}" src="http://127.0.0.1/images/new/surface_studio.jpg"/>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ brand }}</h3>
+                            <div class="card-text">
+                                <a href="{% url 'search' %}?query=brand:{{ brand }}" class="btn btn-link">see shoes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    {% if results.faq %}
+        {% comment %}FAQs results{% endcomment %}
+        <h2 class="section-heading">results for Frequently Asked Questions</h2>
+
+        <div class="container col-md-10"><hr></div>
+        <div class="container col-md-8">
+            <ul class="list-group">
+                {% for f in results.faq %}
+                    <div class="list-group-item faqs-results">
+                        <h5 class="lead">{{ f.question }}</h5>
+                        <li class="list-inline">
+                            {% for tag in f.tag.all %}
+                                <li class="list-inline-item">{{ tag }} |</li>
+                            {% endfor %}
+                        </li>
+                        <a href="{{ f.get_absolute_url }}" class="btn btn-link">see</a>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock content %}

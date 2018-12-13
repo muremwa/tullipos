@@ -1,0 +1,24 @@
+#shoe-list {
+    margin-top: 1em;
+}
+
+#all-shoes {
+    padding-left: 2em;
+}
+
+.shoe {
+    /* border: 1px solid rgb(148, 141, 153); */
+    background-color: #f5f6f6;
+    border-radius: 5px;
+    margin: 1em;
+    width: 22%;
+    /* height: 45vh; */
+}
+
+.shoe a:hover {
+    text-decoration: none;
+}
+
+#top-layer {
+    padding-bottom: 0;
+}

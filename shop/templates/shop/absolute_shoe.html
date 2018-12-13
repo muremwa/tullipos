@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<div class="card shoe">
+    <img class="card-img-top" alt="{{ shoe.get_main_image.description }}" src="{{ shoe.get_main_image.image.url }}">
+    <div class="card-body">
+        <h5 class="card-title"><a href="{{ shoe.get_absolute_url }}">{{ shoe.name }}</a></h5>
+        <hr>
+        <div class="card-text">
+            <div class="row">
+                <p class="col-xl-4 text-info">Ksh.{{ shoe.price }}</p>
+                <div class="col-xl-4">Size {{ shoe.size }}</div>
+                <div class="col-xl-4">
+                    {% if shoe.available %}
+                        available
+                    {% else %}
+                        not available
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                {% csrf_token %}
+                <span class="text-dark col-md-10">by <a href="{% url 'search' %}?query=brand:{{ shoe.brand }}">{{ shoe.brand }}</a></span>
+                {% if shoe.id in cart %}
+                    <span data-page="list" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}" class="cart-button-remove" data-toggle="tooltip" data-placement="bottom" title="Remove from cart"><img src="{% static 'svg/remove_shopping_cart_24px.svg' %}" alt="add to cart"/></span>
+                {% else %}
+                    <span data-page="list" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}" class="cart-button" data-toggle="tooltip" data-placement="bottom" title="add to cart"><img src="{% static 'svg/add_shopping_cart_24px.svg' %}" alt="add to cart"/></span>
+                {% endif %}  
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <span>tags:
+        {% for tag in shoe.tags.all %}
+            <small class="text-muted"><a href="{% url 'search' %}?query=tag:{{ tag }}" class="">{{ tag }}</a></small> |
+        {% endfor %}
+        </span>
+        {% if shoe.id in cart %}
+            <span class="in-cart text-info"><a class="text-warning" href="{% url 'shop:order' %}">in cart</a></span>
+        {% else %}
+            <span style="display: none;" class="in-cart text-info"><a class="text-warning" href="{% url 'shop:order' %}">in cart</a></span>
+        {% endif %}
+    </div>
+</div>

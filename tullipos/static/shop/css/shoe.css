@@ -1,0 +1,34 @@
+.shoe-details {
+    padding-left: 2em;
+    width: 100%;
+}
+
+
+.shoe-details img {
+    width: 100%;
+}
+
+#details-shoe li {
+    margin-top: 1em;
+    background-color: #f5f6f6;
+}
+
+#top-layer {
+    padding-top: 1em;
+    padding-bottom: 0;
+}
+
+.actions {
+    margin-top: 2em;
+    padding: 3em;
+}
+
+#cart {
+    width: 3em;
+    height: 3em;
+}
+
+.rating-star {
+    width: 2em;
+    height: 2em;
+}

@@ -1,0 +1,29 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}All FAQ{% endblock title %}
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'css/faq.css' %}" >{% endblock style %}
+{% block faq %}active{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Frequently Asked Questions</h2>
+    <hr>
+    
+    <div class="col-md-6" id="questions">
+        {% for faq in questions %}
+            <div class="faq-question">
+                <h4 class="lead text-primary">{{ faq.question }}</h4>
+                <p class="faq-question-answer">{{ faq.answer|truncatechars:200 }}<a href="{{ faq.get_absolute_url }}">Read More</a></p>
+                <ul class="list-inline">
+                    {% for tag in faq.tag.all %}
+                        <li class="text-success list-inline-item">{{ tag.name }} |</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

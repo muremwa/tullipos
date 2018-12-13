@@ -1,0 +1,99 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}{{ shoe.name }}{% endblock title %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'shop/css/shoe_list.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'shop/css/shoe.css' %}"/>
+{% endblock style %}
+{% block shop %}active{% endblock shop %}
+
+{% block content %}
+<div id="shoe">
+    <div class="container-fluid" id="top-layer">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <span class="text-primary">Filter by <a href="{% url 'search' %}?query=sex:{{shoe.get_sex}}" class="btn btn-dark">{{ shoe.get_sex }}</a></span>
+            </div>
+            <div class="col-md-3">
+                <span class="text-primary">Filter by <a href="{% url 'search' %}?query=brand:{{shoe.brand}}" class="btn btn-dark">{{ shoe.brand }}</a></span>
+            </div>
+            <div class="col-md-3 list-inline">
+                <span class="text-primary">Filter by </span>
+                {% for tag in shoe.tags.all %}
+                    <a href="{% url 'search' %}?query=tag:{{tag}}" class="btn btn-dark list-inline-item">{{ tag }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="shoe-details row">
+        <div class="col-md-6">
+            <div class="shoe-image">
+                <img alt="{{ shoe.get_main_image.description }}" src="{{ shoe.get_main_image.image.url }}">
+            </div>
+            <hr>
+            <div class="shoe-description container col-md-10">
+                <h2>{{ shoe.name }}</h2>
+                <p class="text-primary">{{ shoe.description }}</p>
+                <hr>
+                
+                
+                <li class="list-inline">
+                    <li class="list-inline-item text-info">Rating</li>
+                    <li id="1" class="list-inline-item"><img class="rating-star" src="{% static 'svg/star_border_24px.svg' %}"></li>
+                    <li id="2" class="list-inline-item"><img class="rating-star" src="{% static 'svg/star_border_24px.svg' %}"></li>
+                    <li id="3" class="list-inline-item"><img class="rating-star" src="{% static 'svg/star_border_24px.svg' %}"></li>
+                    <li id="4" class="list-inline-item"><img class="rating-star" src="{% static 'svg/star_border_24px.svg' %}"></li>
+                    <li id="5" class="list-inline-item"><img class="rating-star" src="{% static 'svg/star_border_24px.svg' %}"></li>
+                </li>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <ul id="details-shoe" class="list-group">
+                <li class="list-group-item">Price: <span class="text-info">Ksh.{{ shoe.price }}</span></li>
+                {% if shoe.available %}
+                    <li class="list-group-item"><span class="text-info">available</span></li>
+                {% else %}
+                    <li class="list-group-item"><span class="text-info">not available</span></li>
+                {% endif %}
+                <li class="list-group-item">Brand: <span class="text-info">{{ shoe.brand }}</span></li>
+                <li class="list-group-item">Gender: <span class="text-info">{{ shoe.get_sex }}</span></li>
+                <li class="list-group-item">Size: <span class="text-info">{{ shoe.size }}</span></li>
+                <li class="list-group-item">Colour: <span class="text-info">{{ shoe.color }}</span></li>
+            </ul>
+
+            <div class="actions container">
+                {% csrf_token %}
+                {% if in_cart %}
+                    <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="Remove {{ shoe.name }} from cart" class="cart-button-remove" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
+                        <img src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
+                    </div>
+                {% else %}
+                    <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="add {{ shoe.name }} to cart (Ksh.{{ shoe.price }})" class="cart-button" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
+                        <img src="{% static 'svg/add_shopping_cart_24px.svg' %}">
+                    </div>
+                {% endif %}
+                <div class="">
+                    <h6 class="text-info" style="display: none">in cart</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="more container">
+        <h2>more shoes</h2>
+        <hr>
+        <div class="row">
+            {% include "shop/shoes.html" %}
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'shop/js/shoe.js' %}"></script>{% endblock script %}

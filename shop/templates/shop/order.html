@@ -1,0 +1,94 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}Order now{% endblock title %}
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'shop/css/order.css' %}">{% endblock style %}
+{% block order %}active{% endblock order %}
+
+{% block content %}
+<div class="container">
+    {% if post_post %}
+        <div class="container col-md-7 text-center alert alert-success success-order">
+            <h2>Your order has been made</h2>
+            <hr>
+            <p class="lead text-info">You will receive a call from <strong>0794-904-435</strong> within 3 hours to get more details on how you will receive your shoes. Thank you for Choosing Tullipos <a href="{% url 'shop:index' %}" class="btn btn-link">shop more</a></p>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-4">
+                {% if cart %}
+                    <h3>Your cart Items</h3>
+                    <hr>
+                    {% for shoe in cart %}
+                        <div class="shoe row">
+                            <div class="col-xl-5">
+                                <h5 class="lead"><a href="{{ shoe.get_absolute_url }}">{{ shoe.name }}</a></h5>
+                                <span class="text-dark">Ksh.{{ shoe.price }}</span>
+                            </div>
+                            <div class="col-xl-7">
+                                {% csrf_token %}
+                                <div data-page='cart' data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}" class="cart-button-remove" >
+                                    <img data-placement="top" data-toggle="tooltip" title="remove from cart" src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+
+                    <h2>Total: {{ total }}</h2>
+                {% else %}
+                    <div style="margin-top: 5em" class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>No items on cart!</strong><p>You have no items in your cart <br /><a href="{% url 'shop:index' %}">Add now</a></p>
+                    </div>
+                    
+                {% endif %}
+            </div>
+
+            <div class="col-md-8">
+                <h3 id="form-title">Make Your order now</h3>
+                <hr>
+
+                <form method="POST" class="form col-md-10" id="order-form" autocomplete="off">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="row">
+                            <div style="max-width: 66%" class="col-xl-8 form-group">
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger">
+                                            <p>{{ error }}</p>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                            <div class="col-xl-4">
+                                {% if field.help_text %}
+                                    <div class="alert alert-info">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        {{ field.help_text }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>   
+                        <hr>                 
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info">order</button>    
+                    </div>
+                </form>
+                <script>
+                    var ins = document.getElementsByTagName('input');
+                    for (i in ins ) {
+                        ins[i].classList.add('form-control');
+                    }
+                </script>
+
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'shop/js/shoe.js' %}"></script>{% endblock script %}
