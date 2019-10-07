@@ -67,14 +67,16 @@
 
             <div class="actions container">
                 {% csrf_token %}
-                {% if in_cart %}
-                    <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="Remove {{ shoe.name }} from cart" class="cart-button-remove" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
-                        <img src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
-                    </div>
-                {% else %}
-                    <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="add {{ shoe.name }} to cart (Ksh.{{ shoe.price }})" class="cart-button" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
-                        <img src="{% static 'svg/add_shopping_cart_24px.svg' %}">
-                    </div>
+                {% if shoe.available %}
+                    {% if in_cart %}
+                        <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="Remove {{ shoe.name }} from cart" class="cart-button-remove" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
+                            <img src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
+                        </div>
+                    {% else %}
+                        <div id="cart" data-page="detail" data-placement="top" data-toggle="tooltip" title="add {{ shoe.name }} to cart (Ksh.{{ shoe.price }})" class="cart-button" data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}">
+                            <img src="{% static 'svg/add_shopping_cart_24px.svg' %}">
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <div class="">
                     <h6 class="text-info" style="display: none">in cart</h6>

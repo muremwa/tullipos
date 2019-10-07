@@ -1,3 +1,5 @@
 {% for shoe in shoes %}
-    {% include "shop/absolute_shoe.html" %}
+	{% if shoe.available %}
+    	{% include "shop/absolute_shoe.html" %}
+	{% endif %}
 {% endfor %}

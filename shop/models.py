@@ -112,11 +112,18 @@ class CustomerOrder(models.Model):
     class Meta:
         ordering = ['-id']
 
+    def __str__(self):
+        return "Order by {}".format(self.preferred_name)
+
     def get_absolute_url(self):
         return reverse('shop:order', args=[str(self.id)])
 
-    def __str__(self):
-        return "Order by {}".format(self.preferred_name)
+    def delete(self):
+        # make all shoes available
+        for shoe in self.shoes_ordered.all():
+            shoe.available = True
+            shoe.save()
+        return super().delete()
 
 
 class FAQ(models.Model):
