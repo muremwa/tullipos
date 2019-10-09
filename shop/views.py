@@ -155,7 +155,6 @@ class Search(generic.TemplateView):
             'faq': FAQ.objects.filter(question__icontains=term)
         }
 
-
     def master_search(self, query):
         results = dict()
         special_search_feature = None
