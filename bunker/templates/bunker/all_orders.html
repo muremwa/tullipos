@@ -42,6 +42,7 @@
         <!-- all orders -->
         <div class="col-md-9" id="orders-section">
             {% for order in orders %}
+            <a class="order-link" href="{% url 'bunker:order' order.id %}">
             <div class="order alert">
                 <div class="row">
                     <span class="col-xl-6"><strong>Order made by </strong>{{ order.preferred_name }}</span>
@@ -52,6 +53,7 @@
                     <span class="col-xl-6"><strong>{{ order.shoes_ordered.count }}</strong> shoes ordered</span>
                 </div>
             </div>
+            </a>
             {% endfor %}
             
         </div>

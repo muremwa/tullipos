@@ -31,3 +31,11 @@
     cursor: pointer;
     color: azure;
 }
+
+.order-link {
+    color: black;
+}
+
+.order-link:hover {
+    text-decoration: none;
+}
