@@ -27,6 +27,9 @@ urlpatterns = [
     # search/
     path('search/', shop_views.Search.as_view(), name='search'),
 
+    # bunker/
+    path('bunker/', include('bunker.urls')),
+
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,63 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}All Orders{% endblock title %}
+
+{% block bunker %}active{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'bunker/css/all_orders.css'%}">
+{% endblock style %}
+
+{% block content %}
+
+<div class="container" id="main-order-page">
+    <h1 class="text-center">All Orders</h1>
+    <hr>
+    
+    <div class="row">
+        <!-- Staff details -->
+        <div class="col-md-3">
+            <h3>Staff Details</h3>
+            <ul id="staff-details">
+                <li><strong>Staff Name</strong>: {{user.username}}</li>
+                <li><strong>Date Joined</strong>: {{ user.date_joined}}</li>
+            </ul>
+            <hr>
+            <form method="GET" id="order-search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="search orders">
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-dark" value="search" >
+                </div>
+            </form>
+
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Searching</strong> You can search by use of preferred name, date, age, phone number, rescidency.
+            </div>
+
+        </div>
+    
+        <!-- all orders -->
+        <div class="col-md-9" id="orders-section">
+            {% for order in orders %}
+            <div class="order alert">
+                <div class="row">
+                    <span class="col-xl-6"><strong>Order made by </strong>{{ order.preferred_name }}</span>
+                    <span class="col-xl-6"><strong>Order made </strong> {{ order.created }}</span>
+                </div>
+                <div class="row">
+                    <span class="col-xl-6"><strong>Total order at </strong> KSH. {{ order.total_amount }}</span>
+                    <span class="col-xl-6"><strong>{{ order.shoes_ordered.count }}</strong> shoes ordered</span>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock content %}

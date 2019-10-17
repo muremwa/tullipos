@@ -1,0 +1,32 @@
+#main-order-page {
+    min-height: 50vh;
+}
+
+#staff-details {
+    margin-bottom: 3em;
+}
+
+#order-search {
+    margin-top: 2em;    
+}
+
+#orders-section {
+    padding-left: 10%;
+    max-height: 80vh;
+    overflow: scroll;
+    overflow-x: hidden
+}
+
+.order {
+    width: 80%;
+    background-color: #cef0f0;
+    transition: 0.3s;
+    height: 9em;
+    font-size: 1.04em;
+}
+
+.order:hover {
+    background-color: rgb(91, 99, 99);
+    cursor: pointer;
+    color: azure;
+}

@@ -104,11 +104,12 @@ class CustomerOrder(models.Model):
     phone_number = models.CharField(max_length=10, help_text='Enter a valid Kenyan number starting with \'07\'')
     residence = models.CharField(max_length=50, help_text='Where would you like to get your order')
     shoes_ordered = models.ManyToManyField(Shoe)
-    total_amount = models.IntegerField(max_length=50, default=0)
+    total_amount = models.IntegerField(default=0)
     cleared = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
     session_id = models.IntegerField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
 
     class Meta:
         ordering = ['-id']
