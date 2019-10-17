@@ -1,0 +1,69 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}Order by {{order.preferred_name}}{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'bunker/css/order.css' %}">
+{% endblock style %}
+
+{% block bunker %}active{% endblock bunker %}
+
+{% block content %}
+
+<div class="container" id="order-page">
+    <h1 class="text-center">Order Details for {{ order.preferred_name }}'s order</h1>
+    <hr>
+    <div class="row">
+        <!-- Order details -->
+        <div class="col-md-5" id="order-details">
+            <h2 class="text-center">Details</h2>
+            <hr>
+            <h4>Personal</h4>
+            <ul>
+                <li><strong>Name</strong>:<span class="detail-info">{{ order.preferred_name }}</span></li>
+                <li><strong>Phone Number</strong>:<span class="detail-info">{{ order.phone_number }}</span></li>
+                <li><strong>Rescidence</strong>:<span class="detail-info">{{ order.rescidence }}</span></li>
+            </ul>
+            <hr>
+            <h4>order</h4>
+            <ul>
+                <li><strong>Created</strong>:<span class="detail-info">{{ order.created }}</span></li>
+                <li><strong>Total shoes</strong>:<span class="detail-info">{{ order.shoes_ordered.count }}</span></li>
+                <li><strong>Total Amount Due</strong>:<span class="detail-info"> KSH. {{ order.total_amount }}</span></li>
+            </ul>
+        </div>
+
+        <div class="col-md-7" id="all-shoes">
+            <h2>Shoes ordered</h2>
+            <hr>
+            {% for shoe in order.shoes_ordered.all %}
+            <div class="shoe">
+                <div class="row">
+                    <img class="col-sm-5" src="{{ shoe.get_main_image.image.url }}" alt="{{ shoe.get_main_image.image.description }}">
+                    <div class="col-sm-7">
+                        <ul>
+                            <li class="shoe-detail"><a href="{{ shoe.get_absolute_url }}">{{ shoe.name }}</a></li>
+                            <li class="shoe-detail">{{ shoe.brand }}</li>
+                            <li class="shoe-detail">KSH. {{ shoe.price }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>   
+            {% endfor %}         
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

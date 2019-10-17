@@ -1,0 +1,34 @@
+#order-page {
+    min-height: 50vh;
+}
+
+#order-details li {
+    margin: 1em;
+}
+
+.shoe {
+    border: 1px solid teal;
+    margin: 0.6em;
+    transition: 0.25s;
+}
+
+.shoe:hover {
+    cursor: pointer;
+    background-color: teal;
+    color: azure;
+}
+
+.shoe:hover a {
+    color: beige;
+}
+
+.shoe-detail {
+    margin: 0.8em;
+}
+
+#all-shoes {
+    max-height: 90vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
