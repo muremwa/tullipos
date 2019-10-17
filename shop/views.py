@@ -77,9 +77,15 @@ class CustomerOrdering(View):
 
         cart = self.get_shoes_in_cart(cart_)
 
+        # total cart price
+        total = 0
+        for shoe in cart:
+            total += shoe.price
+
         return render(request, self.template_name, {
             'form': CustomerOrderForm,
-            'cart': cart
+            'cart': cart,
+            'cart_total': total,
         })
 
     def post(self, request):
