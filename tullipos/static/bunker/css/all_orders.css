@@ -14,7 +14,8 @@
     padding-left: 10%;
     max-height: 80vh;
     overflow: scroll;
-    overflow-x: hidden
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .order {
