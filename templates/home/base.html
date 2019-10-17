@@ -28,9 +28,11 @@
                     <li class="nav-item {% block order %}{% endblock %}">
                         <a class="nav-link" href="{% url 'shop:order' %}">order now</a>
                     </li>
+                    {% if user.is_staff %}
                     <li class="nav-item {% block bunker %}{% endblock %}">
                         <a class="nav-link" href="{% url 'bunker:all_orders' %}">Bunker</a>
                     </li>
+                    {% endif %}
                 </ul>
               <form method="GET" action="{% url 'search'  %}" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="query" value="{{ request.GET.query }}" placeholder="Search for shoes, brands and tags" aria-label="Search">
