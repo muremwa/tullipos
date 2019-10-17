@@ -85,16 +85,20 @@ class CustomerOrdering(View):
     def post(self, request):
         form = CustomerOrderForm(request.POST)
         shoe_list = request.session['cart']
+
         if form.is_valid():
             form.save()
+            # add every shoe to ordered for the order
             for i in shoe_list:
                 try:
                     shoe = Shoe.objects.get(id=i)
                     shoe.available = False
                     shoe.save()
                     form.instance.shoes_ordered.add(shoe)
+                    form.instance.total_amount += shoe.price
                 except ObjectDoesNotExist:
                     continue
+            form.instance.save()
             if len(form.instance.shoes_ordered.all()) < 1:
                 form.instance.delete()
                 return redirect(reverse('shop:order'))
@@ -142,7 +146,8 @@ class Search(generic.TemplateView):
     females = ['F', 'FEMALE', 'FEMALES', 'WOMEN', 'GIRLS', 'GIRL']
     tag_names = ['SPORT', 'CASUAL', 'OFFICIAL', 'PARTY']
 
-    def search_shoes(self, term):
+    @staticmethod
+    def search_shoes(term):
         q_set_shoes = (
             Q(name__icontains=term) |
             Q(brand__icontains=term) |
@@ -201,7 +206,6 @@ class Search(generic.TemplateView):
                 results['shoes'] = Shoe.objects.filter(sex=key)
 
             elif special_search_feature == 'tag':
-                tags = Tag.objects.filter(name__icontains=query_term)
                 results['shoes'] = Shoe.objects.filter(tags__name__icontains=query_term)
                 results['faq'] = FAQ.objects.filter(tag__name__icontains=query_term)
 

@@ -22,9 +22,9 @@ class ShoeAdmin(admin.ModelAdmin):
 class CustomerOrderAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal info', {'fields': ['preferred_name', 'phone_number', 'residence']}),
-        ('Order details', {'fields': ['shoes_ordered', 'cleared', 'cancelled']})
+        ('Order details', {'fields': ['shoes_ordered', 'cleared', 'cancelled',]})
     ]
-    list_display = ('preferred_name', 'residence', 'cleared', 'cancelled')
+    list_display = ('preferred_name', 'residence', 'total_amount', 'cleared', 'cancelled')
     list_filter = ['created', 'cancelled', 'cleared', 'residence']
     search_fields = ['created', 'phone_number', 'preferred_name', 'residence']
     actions = ['mark_as_cleared']
