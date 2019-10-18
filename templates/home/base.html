@@ -32,6 +32,9 @@
                     <li class="nav-item {% block bunker %}{% endblock %}">
                         <a class="nav-link" href="{% url 'bunker:all_orders' %}">Bunker</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                    </li>
                     {% endif %}
                 </ul>
               <form method="GET" action="{% url 'search'  %}" class="form-inline my-2 my-lg-0">
