@@ -11,7 +11,7 @@
 {% block content %}
 
 <div class="container" id="main-order-page">
-    <h1 class="text-center">All Orders</h1>
+    <h1 class="text-center">{% if search %}Search results for "{{ query }}" {%else %} All Orders{% endif %}</h1>
     <hr>
     
     <div class="row">
@@ -23,9 +23,9 @@
                 <li><strong>Date Joined</strong>: {{ user.date_joined}}</li>
             </ul>
             <hr>
-            <form method="GET" id="order-search">
+            <form method="GET" id="order-search" action="{% url 'bunker:bunker_search' %}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="search orders">
+                    <input type="text" class="form-control" placeholder="search orders" value="{{ query }}" name='query'>
                 </div>
                 <div class="form-group text-center">
                     <input type="submit" class="btn btn-dark" value="search" >
@@ -34,27 +34,31 @@
 
             <div class="alert alert-info">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Searching</strong> You can search by use of preferred name, date, age, phone number, rescidency.
+                <strong>Searching</strong> You can search by use of preferred name, phone number, rescidency.
             </div>
 
         </div>
     
         <!-- all orders -->
         <div class="col-md-9" id="orders-section">
-            {% for order in orders %}
-            <a class="order-link" href="{% url 'bunker:order' order.id %}">
-            <div class="order alert">
-                <div class="row">
-                    <span class="col-xl-6"><strong>Order made by </strong>{{ order.preferred_name }}</span>
-                    <span class="col-xl-6"><strong>Order made </strong> {{ order.created }}</span>
-                </div>
-                <div class="row">
-                    <span class="col-xl-6"><strong>Total order at </strong> KSH. {{ order.total_amount }}</span>
-                    <span class="col-xl-6"><strong>{{ order.shoes_ordered.count }}</strong> shoes ordered</span>
-                </div>
-            </div>
-            </a>
-            {% endfor %}
+            {% if orders.count == 0 %}
+                <h2 class="text center">{% if search %}Sorry no results for {{ query }}.{% else %}Sorry, no orders at this time.{% endif %}</h2>
+            {% else %}
+                {% for order in orders %}
+                    <a class="order-link" href="{% url 'bunker:order' order.id %}">
+                    <div class="order alert">
+                        <div class="row">
+                            <span class="col-xl-6"><strong>Order made by </strong>{{ order.preferred_name }}</span>
+                            <span class="col-xl-6"><strong>Order made </strong> {{ order.created }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-xl-6"><strong>Total order at </strong> KSH. {{ order.total_amount }}</span>
+                            <span class="col-xl-6"><strong>{{ order.shoes_ordered.count }}</strong> shoes ordered</span>
+                        </div>
+                    </div>
+                    </a>
+                {% endfor %}
+            {% endif %}
             
         </div>
     </div>

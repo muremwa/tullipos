@@ -14,4 +14,7 @@ urlpatterns = [
 
     # /order/34/
     path("order/<int:order_id>/", views.Order.as_view(), name='order'),
+
+    # /search/
+    path("search/", views.BunkerSearch.as_view(), name="bunker_search"),
 ]
