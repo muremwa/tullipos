@@ -31,6 +31,9 @@ class Order(View):
 
 class BunkerSearch(View):
     def get(self, *args, **kwargs):
+        if not self.request.user.is_staff:
+            raise Http404
+        
         try:
             query_term = self.request.GET['query']
         except MultiValueDictKeyError:

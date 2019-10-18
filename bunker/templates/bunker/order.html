@@ -54,18 +54,20 @@
         </div>
     </div>
 
-    <div class="container text-center" id="delete-order">
-        
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Be aware</strong> Deleting an order makes all the shoes availabe in the shop! Are you sure?
-        </div>
+    {% if user.is_superuser %}
+        <div class="container text-center" id="delete-order">
+            
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Be aware</strong> Deleting an order makes all the shoes availabe in the shop! Are you sure?
+            </div>
 
-        
-        <a href="{% url 'admin:shop_customerorder_delete' order.pk %}" type="button" class="btn btn-danger">Delete order by {{ order.preferred_name }}</a>
-        
-        
-    </div>
+            
+            <a href="{% url 'admin:shop_customerorder_delete' order.pk %}" type="button" class="btn btn-danger">Delete order by {{ order.preferred_name }}</a>
+            
+            
+        </div>
+    {% endif %}
 
 
 
