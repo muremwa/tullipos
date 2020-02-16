@@ -149,7 +149,6 @@ class Search(generic.TemplateView):
             special_search = True
             special_search_feature = re.findall(r'\w+', query, re.M | re.I)[0]
             query_term = re.findall(r':\w+', query, re.M | re.I)[0].split(':')[-1]
-            print(special_search_feature)
 
         # if not key make a normal search
         else:
@@ -207,6 +206,6 @@ class Search(generic.TemplateView):
 
         return render(request, self.template_name, {
             'results': results,
-            'cart': request.session['cart'],
+            'cart': request.session.setdefault('cart', []),
             'query': raw_query
         })
