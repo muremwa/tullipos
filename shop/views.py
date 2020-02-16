@@ -19,11 +19,7 @@ class ShopIndex(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['brands'] = Shoe.objects.get_brands()[:5]
-        try:
-            context['cart'] = self.request.session['cart']
-        except KeyError:
-            self.request.session['cart'] = []
-            context['cart'] = self.request.session['cart']
+        context['cart'] = self.request.session.setdefault('cart', [])
         context['tags'] = Tag.objects.filter(for_shoe=True)[:3]
         return context
 
@@ -57,40 +53,19 @@ class ShoeDetail(generic.DetailView):
 class CustomerOrdering(View):
     form = CustomerOrderForm
     template_name = 'shop/order.html'
-
-    @staticmethod
-    def get_shoes_in_cart(list_):
-        _list = []
-        for i in list_:
-            try:
-                _list.append(Shoe.objects.get(pk=i))
-            except ObjectDoesNotExist:
-                continue
-        return _list
-
+    
     def get(self, request):
-        try:
-            cart_ = request.session['cart']
-        except KeyError:
-            request.session['cart'] = []
-            cart_ = request.session['cart']
-
-        cart = self.get_shoes_in_cart(cart_)
-
-        # total cart price
-        total = 0
-        for shoe in cart:
-            total += shoe.price
+        cart = request.session.setdefault('cart', [])
+        cart = Shoe.objects.filter(pk__in=cart)
 
         return render(request, self.template_name, {
             'form': CustomerOrderForm,
             'cart': cart,
-            'cart_total': total,
         })
 
     def post(self, request):
         form = CustomerOrderForm(request.POST)
-        shoe_list = request.session['cart']
+        shoe_list = request.session.get('cart')
 
         if form.is_valid():
             form.save()
@@ -101,7 +76,6 @@ class CustomerOrdering(View):
                     shoe.available = False
                     shoe.save()
                     form.instance.shoes_ordered.add(shoe)
-                    form.instance.total_amount += shoe.price
                 except ObjectDoesNotExist:
                     continue
             form.instance.save()
@@ -125,7 +99,7 @@ class CartOptions(View):
     @staticmethod
     def post(request, **kwargs):
         response = dict()
-        cart = request.session['cart']
+        cart = request.session.get('cart')
         shoe = get_object_or_404(Shoe, slug=kwargs['slug'])
 
         if kwargs['option'] == 'add':

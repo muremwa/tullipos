@@ -39,6 +39,15 @@ class ShoeManager(models.Manager):
         return filtered_brands
 
 
+class ShoeQuerySet(models.QuerySet):
+    def total_price(self):
+        total = 0
+        for shoe in self:
+            total += shoe.price
+
+        return total
+
+
 class Shoe(models.Model):
     genders = (('M', 'male'), ('F', 'female'), ('U', 'unisex'))
     name = models.CharField(max_length=50)
@@ -55,7 +64,7 @@ class Shoe(models.Model):
     tags = models.ManyToManyField(Tag)
     description = models.TextField(blank=True)
     price = models.BigIntegerField(default=0.00)
-    objects = ShoeManager()
+    objects = ShoeManager.from_queryset(ShoeQuerySet)()
 
     class Meta:
         ordering = ['-id']
@@ -104,7 +113,6 @@ class CustomerOrder(models.Model):
     phone_number = models.CharField(max_length=10, help_text='Enter a valid Kenyan number starting with \'07\'')
     residence = models.CharField(max_length=50, help_text='Where would you like to get your order')
     shoes_ordered = models.ManyToManyField(Shoe)
-    total_amount = models.IntegerField(default=0)
     cleared = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
     session_id = models.IntegerField(blank=True, null=True)
@@ -119,6 +127,9 @@ class CustomerOrder(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:order', args=[str(self.id)])
+
+    def total_amount(self):
+        return self.shoes_ordered.all().total_price()
 
     def delete(self, *args, **kwargs):
         # make all shoes available
