@@ -41,11 +41,9 @@ class ShoeManager(models.Manager):
 
 class ShoeQuerySet(models.QuerySet):
     def total_price(self):
-        total = 0
-        for shoe in self:
-            total += shoe.price
-
-        return total
+        return sum([
+            shoe.price for shoe in self
+        ])
 
 
 class Shoe(models.Model):
