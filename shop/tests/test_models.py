@@ -24,4 +24,4 @@ class ShopModelTestCase(TestCase):
             answer='This is a test answer'
         )
         faq.save()
-        self.assertEqual(faq.question_slug, 'this-is-a-test-question')
+        self.assertEqual(faq.slug, 'this-is-a-test-question')
