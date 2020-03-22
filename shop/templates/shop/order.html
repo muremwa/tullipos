@@ -17,24 +17,30 @@
             <div class="col-md-4">
                 {% if cart %}
                     <h3>Your cart Items</h3>
-                    <hr>
+                    <div id="no-items-inc" style="margin-top: 5em; display: none;" class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>No items on cart!</strong><p>You have no items in your cart <br /><a href="{% url 'shop:index' %}">Add now</a></p>
+                    </div>
+                    <hr id="top-cart-line">
                     {% for shoe in cart %}
-                        <div class="shoe row">
-                            <div class="col-xl-5">
-                                <h5 class="lead"><a href="{{ shoe.get_absolute_url }}">{{ shoe.name }}</a></h5>
-                                <span class="text-dark">Ksh.{{ shoe.price }}</span>
-                            </div>
-                            <div class="col-xl-7">
-                                {% csrf_token %}
-                                <div data-page='cart' data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}" class="cart-button-remove" >
-                                    <img data-placement="top" data-toggle="tooltip" title="remove from cart" src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
+                        <div>
+                            <div class="shoe row">
+                                <div class="col-xl-5">
+                                    <h5 class="lead"><a href="{{ shoe.get_absolute_url }}">{{ shoe.name }}</a></h5>
+                                    <span class="text-dark">Ksh. {{ shoe.price }}</span>
+                                </div>
+                                <div class="col-xl-7">
+                                    {% csrf_token %}
+                                    <div data-page='cart' data-url="{% url 'shop:cart-options' 'add' shoe.slug %}" data-url-remove="{% url 'shop:cart-options' 'remove' shoe.slug %}" class="cart-button-remove" onclick="updateCartPrice({{shoe.price}})">
+                                        <img data-placement="top" data-toggle="tooltip" title="remove from cart" src="{% static 'svg/remove_shopping_cart_24px.svg' %}">
+                                    </div>
                                 </div>
                             </div>
+                            <hr/>
                         </div>
-                        <hr>
                     {% endfor %}
 
-                    <h2>Total: KSH. {{ cart.total_price }}</h2>
+                <h2>Total: KSH. <span id="cart-total">{{ cart.total_price }}</span></h2>
                 {% else %}
                     <div style="margin-top: 5em" class="alert alert-success">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -78,12 +84,6 @@
                         <button type="submit" class="btn btn-info">order</button>    
                     </div>
                 </form>
-                <script>
-                    var ins = document.getElementsByTagName('input');
-                    for (i in ins ) {
-                        ins[i].classList.add('form-control');
-                    }
-                </script>
 
             </div>
         </div>
@@ -91,4 +91,5 @@
 </div>
 {% endblock content %}
 
-{% block script %}<script src="{% static 'shop/js/shoe.js' %}"></script>{% endblock script %}
+{% block script %}<script src="{% static 'shop/js/order.js' %}"></script>
+<script src="{% static 'shop/js/shoe.js' %}"></script>{% endblock script %}

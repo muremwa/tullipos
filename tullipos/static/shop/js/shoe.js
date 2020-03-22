@@ -11,16 +11,12 @@ $(document).on('click', '.cart-button', function (e) {
             'csrfmiddlewaretoken': button.parentElement.children[0].value
         },
         success: function (response) {
-            console.log(response);
             svg.src = removeCartUrl;
             if (button.attributes['data-page'].value == 'list'){
                 button.parentElement.parentElement.parentElement.parentElement.children[2].children[1].style.display = "";
             }
             button.classList.remove('cart-button');
             button.classList.add('cart-button-remove');
-        },
-        error: function () {
-            console.log('an error occured');
         }
     });
 })
@@ -39,12 +35,11 @@ $(document).on('click', '.cart-button-remove', function(e) {
             'csrfmiddlewaretoken': button.parentElement.children[0].value
         },
         success: function (response) {
-            console.log(response);
             svg.src = addCartUrl;
             if (button.attributes['data-page'].value == 'list'){
                 button.parentElement.parentElement.parentElement.parentElement.children[2].children[1].style.display = "none";
             } else if (button.attributes['data-page'].value == 'cart') {
-                button.parentElement.parentElement.style.display = 'none';
+                button.parentElement.parentElement.parentElement.style.display = 'none';
             }
             button.classList.remove('cart-button-remove');
             button.classList.add('cart-button');
