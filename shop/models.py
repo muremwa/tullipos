@@ -124,7 +124,7 @@ class CustomerOrder(models.Model):
         return "Order by {}".format(self.preferred_name)
 
     def get_absolute_url(self):
-        return reverse('shop:order', args=[str(self.id)])
+        return reverse('bunker:order', args=[str(self.id)])
 
     def total_amount(self):
         return self.shoes_ordered.all().total_price()
