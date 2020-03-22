@@ -1,10 +1,3 @@
-// TODO:: Eliminate need for add classList for form control manually
-var ins = document.getElementsByTagName('input');
-for (i in ins ) {
-    ins[i].classList.add('form-control');
-};
-
-
 // deducts removed shoe's price from total cart price
 function updateCartPrice (price) {
     const cartPrice = document.getElementById('cart-total');

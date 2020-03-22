@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.db.models import ObjectDoesNotExist, Q
 from django.views import View, generic
 from django.http import JsonResponse
-from django.db.models import ObjectDoesNotExist, Q
+from django import forms
 
 from .models import Shoe, Tag, FAQ
 from .forms import CustomerOrderForm
@@ -57,9 +58,13 @@ class CustomerOrdering(View):
     def get(self, request):
         cart = request.session.setdefault('cart', [])
         cart = Shoe.objects.filter(pk__in=cart)
+        form = CustomerOrderForm
+
+        for item in form.base_fields.values():
+            item.widget = forms.TextInput(attrs={"class": "form-control"})
 
         return render(request, self.template_name, {
-            'form': CustomerOrderForm,
+            'form': form,
             'cart': cart,
         })
 
